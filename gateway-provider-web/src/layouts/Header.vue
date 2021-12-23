@@ -61,7 +61,7 @@
 
         <div class="column items-center">
           <q-avatar size="72px">
-            <img alt="user" :src="userModel.headIcon === null || userModel.headIcon === undefined ? require('@/assets/logo.png') : staticDomain + userModel.headIcon.path + userModel.headIcon.local_name">
+            <img alt="user" :src="userModel.headIcon === null || userModel.headIcon === undefined ? '' : staticDomain + userModel.headIcon.path + userModel.headIcon.local_name">
           </q-avatar>
           <div class="text-subtitle1 q-mt-md q-mb-xs">{{userModel.userId}}</div>
           <q-btn color="primary" @click="logout" label="Logout" size="sm" v-close-popup />

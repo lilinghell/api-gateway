@@ -17,7 +17,7 @@
                     <span style="font-size:15px">{{prop.node.deptName}}</span>
                   </div>
                   <div class="text-right">
-                     <!-- v-show判断是否等于，是则为true（显示），不是则为false（隐藏） -->
+                    <!-- v-show判断是否等于，是则为true（显示），不是则为false（隐藏） -->
                     <q-icon v-show="prop.node.level === 1 " style="padding-left:10px" color="primary" size="xs" @click="addSubDept(prop.node)" flat name="add_box" />
                     <q-icon v-show="prop.node.children.length === 0" style="padding-left:10px" color="primary" size="xs" @click="delDept(prop.node)" flat name="delete" />
                   </div>
@@ -78,7 +78,7 @@
                         <q-item v-bind="scope.itemProps" v-on="scope.itemEvents">
                           <q-item-section side>
                             <q-avatar v-if="scope.opt.headIcon === null || scope.opt.headIcon === undefined" size="24px">
-                              <q-img :src="require('@/assets/logo.png')" />
+                              <q-img :src="require('@/assets/logo.svg')" />
                             </q-avatar>
                             <q-avatar v-else size="24px">
                               <q-img :src="staticDomain + scope.opt.headIcon.path + scope.opt.headIcon.local_name" />
@@ -183,11 +183,11 @@ export default {
   name: 'DeptList',
   data() {
     return {
-      delMemberConfirm: false,//删除成员的界面
+      delMemberConfirm: false, //删除成员的界面
       staticDomain: 'http://localhost',
       users: [],
       addMemberModel: '',
-      addMemberModalOpened: false,//增加部门成员的界面
+      addMemberModalOpened: false, //增加部门成员的界面
       memberList: [],
       memberFilter: '',
       pagination: {
@@ -199,9 +199,9 @@ export default {
       splitterModel: 25,
       selected: '',
       filter: '',
-      handAddDeptMode: false,//增加一级部门的界面
-      confirm: false,//删除部门的界面
-      editable: false,//部门编辑界面。。。笔
+      handAddDeptMode: false, //增加一级部门的界面
+      confirm: false, //删除部门的界面
+      editable: false, //部门编辑界面。。。笔
       addDeptModel: deptModel(),
       simple: [],
       expanded: [],

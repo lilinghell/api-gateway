@@ -57,7 +57,7 @@
                     <template v-slot:header></template>
                     <template v-slot:list="">
                       <q-avatar size="88px" @mouseover="isUploadIconVisible = true" @mouseout="isUploadIconVisible = false" class="relative-position">
-                        <q-img :src="userModel.headIcon === null || userModel.headIcon === undefined ? require('@/assets/logo.png') : staticDomain + userModel.headIcon.path + userModel.headIcon.local_name" class="absolute-center" />
+                        <q-img :src="userModel.headIcon === null || userModel.headIcon === undefined ? require('@/assets/logo.svg') : staticDomain + userModel.headIcon.path + userModel.headIcon.local_name" class="absolute-center" />
                         <transition style="width:100%;height:100%" enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
                           <q-icon name="edit" v-show="isUploadIconVisible" class="avatar-upload">
                             <q-uploader-add-trigger />
@@ -67,7 +67,7 @@
                     </template>
                   </q-uploader>
                 </q-card-section>
-                <q-input label="密码" :readonly="!editable" v-model="userModel.password" type="password" dense >
+                <q-input label="密码" :readonly="!editable" v-model="userModel.password" type="password" dense>
                   <template v-slot:before>
                     <q-icon name="lock" class="q-mr-sm" />
                   </template>
@@ -188,15 +188,15 @@ export default {
   data() {
     return {
       staticDomain: 'http://localhost',
-      addUserOpened: false,//增加用户的界面
-      isUploadIconVisible: false,//鼠标移到log上显示
+      addUserOpened: false, //增加用户的界面
+      isUploadIconVisible: false, //鼠标移到log上显示
       userModel: userModel,
       tempUserModel: userModel,
       addUserModel: userModel,
       delUserModel: userModel,
-      confirm: false,//删除的界面
-      editable2: false,//笔的按钮
-      editable: false,//编辑的界面
+      confirm: false, //删除的界面
+      editable2: false, //笔的按钮
+      editable: false, //编辑的界面
       pagination: {
         sortBy: 'desc',
         descending: false,

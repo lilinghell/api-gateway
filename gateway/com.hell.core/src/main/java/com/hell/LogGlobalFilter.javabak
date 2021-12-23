@@ -1,0 +1,128 @@
+package com.hell;
+
+import com.Utils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.cloud.gateway.filter.GatewayFilterChain;
+import org.springframework.cloud.gateway.filter.GlobalFilter;
+import org.springframework.cloud.gateway.filter.factory.rewrite.CachedBodyOutputMessage;
+import org.springframework.cloud.gateway.support.BodyInserterContext;
+import org.springframework.core.Ordered;
+import org.springframework.core.io.buffer.DataBuffer;
+import org.springframework.core.io.buffer.DataBufferUtils;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.server.reactive.ServerHttpRequest;
+import org.springframework.http.server.reactive.ServerHttpRequestDecorator;
+import org.springframework.web.reactive.function.BodyInserter;
+import org.springframework.web.reactive.function.BodyInserters;
+import org.springframework.web.reactive.function.server.HandlerStrategies;
+import org.springframework.web.reactive.function.server.ServerRequest;
+import org.springframework.web.server.ServerWebExchange;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
+import java.net.URI;
+import java.util.Arrays;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+public class LogGlobalFilter implements GlobalFilter, Ordered {
+    private static final Logger log = LoggerFactory.getLogger(LogGlobalFilter.class);
+    private static final String REQUEST_PREFIX = "\n--------------Request Info--------------";
+
+    @Override
+    public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
+        long start = System.currentTimeMillis();
+
+        ServerHttpRequest request = exchange.getRequest();
+        String method = request.getMethodValue();
+        URI uri = request.getURI();
+        HttpHeaders headers = request.getHeaders();
+        String body = "";
+        //获取body数据
+        if (HttpMethod.POST.name().equalsIgnoreCase(method) || HttpMethod.PUT.name().equalsIgnoreCase(method)) {
+            return apply(exchange, chain);
+        } else {
+
+        }
+
+
+        // 获取请求query
+        Map queryMap = request.getQueryParams();
+
+        String query = Utils.objectToJson(queryMap);
+
+        StringBuilder reqMsg = new StringBuilder();
+        reqMsg.append(REQUEST_PREFIX);
+        reqMsg.append("\n header=").append(headers);
+        reqMsg.append("\n query=").append(query);
+        return apply(exchange, chain);
+    }
+
+    public Mono<Void> apply(ServerWebExchange exchange, GatewayFilterChain chain) {
+        ServerRequest serverRequest = ServerRequest.create(exchange, HandlerStrategies.withDefaults().messageReaders());
+        Mono<String> modifiedBody = serverRequest.bodyToMono(String.class).flatMap((originalBody) -> {
+            printPostLog(exchange, originalBody);
+            return Mono.just(originalBody);
+        }).switchIfEmpty(Mono.defer(() -> {
+            return Mono.empty();
+        }));
+        BodyInserter bodyInserter = BodyInserters.fromPublisher(modifiedBody, String.class);
+        HttpHeaders headers = new HttpHeaders();
+        headers.putAll(exchange.getRequest().getHeaders());
+        headers.remove(HttpHeaders.CONTENT_LENGTH);
+
+        CachedBodyOutputMessage outputMessage = new CachedBodyOutputMessage(exchange, headers);
+        return bodyInserter.insert(outputMessage, new BodyInserterContext()).then(Mono.defer(() -> {
+            ServerHttpRequest decorator = decorate(exchange, headers, outputMessage);
+            return chain.filter(exchange.mutate().request(decorator).build());
+        })).onErrorResume((throwable) -> release(exchange, outputMessage, (Throwable) throwable));
+    }
+
+    /**
+     * 打印日子
+     *
+     * @param exchange
+     * @param originalBody
+     */
+    private void printPostLog(ServerWebExchange exchange, String originalBody) {
+
+    }
+
+    private Map<String, Object> decodeBody(String body) {
+        return Arrays.stream(body.split("&"))
+                .map(s -> s.split("="))
+                .collect(Collectors.toMap(arr -> arr[0], arr -> arr[1]));
+    }
+
+    ServerHttpRequestDecorator decorate(ServerWebExchange exchange, HttpHeaders headers, CachedBodyOutputMessage outputMessage) {
+        return new ServerHttpRequestDecorator(exchange.getRequest()) {
+            public HttpHeaders getHeaders() {
+                long contentLength = headers.getContentLength();
+                HttpHeaders httpHeaders = new HttpHeaders();
+                httpHeaders.putAll(headers);
+                if (contentLength > 0L) {
+                    httpHeaders.setContentLength(contentLength);
+                } else {
+                    httpHeaders.set("Transfer-Encoding", "chunked");
+                }
+
+                return httpHeaders;
+            }
+
+            public Flux<DataBuffer> getBody() {
+                return outputMessage.getBody();
+            }
+        };
+    }
+
+    protected Mono<Void> release(ServerWebExchange exchange, CachedBodyOutputMessage outputMessage, Throwable throwable) {
+        return outputMessage.getBody().map(DataBufferUtils::release).then(Mono.error(throwable));
+    }
+
+    @Override
+    public int getOrder() {
+        return -1;
+    }
+}

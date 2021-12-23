@@ -1,0 +1,49 @@
+spring:
+  application:
+    name: provider
+server:
+  port: 8090
+---
+spring:
+  messages:
+    basename: i18n/checkmsg,i18n/dictionary
+---
+## jpa 配置
+spring:
+  jpa:
+    #    database: mysql
+    #    database-platform: org.hibernate.dialect.MySQL8Dialect
+    database: h2
+    database-platform: org.hibernate.dialect.H2Dialect
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+---
+## 数据源配置
+spring:
+  datasource:
+    #    driver-class-name: com.mysql.cj.jdbc.Driver
+    driver-class-name: org.h2.Driver
+    hikari:
+      #最小空闲连接
+      minimum-idle: 5
+      #最大连接数
+      maximum-pool-size: 50
+      #空闲连接超时时间
+      idle-timeout: 500000
+      #连接最大存活时间
+      max-lifetime: 600000
+      #连接超时时间
+      connection-timeout: 60000
+      #用于测试连接是否可用的查询语句
+      connection-test-query: SELECT 1
+#    schema: classpath:init_sql/schema.sql
+    data: classpath:init_sql/data.sql
+    initialization-mode: always
+---
+###配置文件脱敏，如数据库密码等
+jasypt:
+  encryptor:
+    password: ASDqwe@123
+---

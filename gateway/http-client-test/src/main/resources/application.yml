@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: httpClient
+
+server:
+  port: 9080
+
+http:
+  client:
+    http-pool:
+      # 连接池最大连接数
+      max-total: 1000
+      # 每个route请求的最大连接数
+      default-max-per-route: 20
+      # 空闲多长时间（毫秒）来校验连接的有效性
+      validate-after-inactivity: 2000
+      # 建立连接的最大超时时间（毫秒）
+      connect-timeout: 5000
+      # 获取连接的最大超时时间（毫秒）
+      connection-request-timeout: 10000
+      # socket读取数据的超时时间（毫秒）
+      socket-timeout: 20000

@@ -1,0 +1,56 @@
+#应用名称
+spring:
+  application:
+    name: gateway
+#应用端口
+server:
+  port: 9080
+---
+## spring cloud
+spring:
+  cloud:
+    gateway:
+      httpclient:
+        connect-timeout: 10000
+        response-timeout: 10s
+      default-filters:
+      - name: CircuitBreaker
+        args:
+          name: defaultCircuitBreaker
+          fallbackUri: forward:/error/fallback
+---
+## jpa 配置
+spring:
+  jpa:
+#    database: mysql
+#    database-platform: org.hibernate.dialect.MySQL8Dialect
+    database: h2
+    database-platform: org.hibernate.dialect.H2Dialect
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+    open-in-view: false
+---
+## 数据源配置
+spring:
+  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+    driver-class-name: org.h2.Driver
+    hikari:
+      #最小空闲连接
+      minimum-idle: 5
+      #最大连接数
+      maximum-pool-size: 50
+      #空闲连接超时时间
+      idle-timeout: 500000
+      #连接最大存活时间
+      max-lifetime: 600000
+      #连接超时时间
+      connection-timeout: 60000
+      #用于测试连接是否可用的查询语句
+      connection-test-query: SELECT 1
+---
+## properties 加密密钥
+jasypt:
+  encryptor:
+    password: ASDqwe@123

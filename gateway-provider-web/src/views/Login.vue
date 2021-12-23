@@ -4,7 +4,7 @@
       <q-toolbar>
         <q-toolbar-title>
           <q-avatar style="width:200px;height:70px;" rounded>
-            <q-img width="200px" height="60px" :src="require('@/assets/logo.png')" alt="logo" />
+            <q-img width="200px" height="60px" alt="logo" />
           </q-avatar>
           HELL API网关服务Diga
           <q-badge transparent align="middle" color="orange">v1.0.0</q-badge>
