@@ -13,7 +13,7 @@ API Gateway
 
 ## 整体架构
 
-<img src="https://github.com/lilinghell/devops/blob/master/doc/img/ljjg.jpg" height=450px alt="整体架构"/>
+<img src="https://github.com/lilinghell/gateway/blob/main/doc/img/1.jpg" height=450px alt="整体架构"/>
 
 ## 交流
 
