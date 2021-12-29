@@ -24,7 +24,7 @@ public class TestAction {
         return "liling";
     }
 
-    @RequestMapping(path = "/api/qry")
+    @RequestMapping(path = "/api/qry", headers = "X-API-VERSION=1")
     public String qry(HttpSession session) throws Exception {
         System.out.println(session.getId());
         Map m = new HashMap();
@@ -38,13 +38,13 @@ public class TestAction {
         return JsonUtils.objectToJson(m);
     }
 
-    @GetMapping(path = "/api/qry2")
+    @GetMapping(path = "/api/qry", headers = "X-API-VERSION=2")
     public String qry2(HttpSession session) throws Exception {
         System.out.println(session.getId());
         return "liling2";
     }
 
-    @GetMapping(path = "/api/qry3")
+    @GetMapping(path = "/api/qry")
     public String qry3() throws Exception {
         return "liling3";
     }
