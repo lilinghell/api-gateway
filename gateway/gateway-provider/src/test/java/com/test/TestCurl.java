@@ -1,6 +1,7 @@
 package com.test;
 
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.DigestUtils;
 
 import java.io.BufferedReader;
@@ -15,17 +16,12 @@ import java.util.regex.Pattern;
 
 public class TestCurl {
     public static void main(String[] args) {
-        System.out.println(DigestUtils.md5DigestAsHex("abx".getBytes()));
-        String[] curlStr = {"curl", "-X", "GET", "http://localhost:9080/api/qry",
+       // System.out.println(DigestUtils.md5DigestAsHex("abx".getBytes()));
+        String[] curlStr = {"curl", "-c", "cookies.txt","-b", "cookies.txt", "-X", "POST", "http://localhost:8020/api/t0/user/login",
                 "-H", "accept: application/json",
                 "-H", "Content-Type: application/json",
-                "-d", "{\n" +
-                "  \"name\": \"string\",\n" +
-                "  \"id\": 1,\n" +
-                "  \"status\": \"string\"\n" +
-                "}"
-        };//必须分开写，不能有空格df
-
+                "-d", "{\"loginId\":\"sys\",\"loginPassword\":\"000000\"}"
+        };
         String a = "curl -X 'POST' \n" +
                 " 'https://xxx.com.cn/demo/qry' \n" +
                 " -H 'accept: application/json' \n" +
@@ -47,7 +43,7 @@ public class TestCurl {
                 "-H", "Content-Type: application/json",
                 "-d", "{\"loginId\":\"sys\",\"loginPassword\":\"000000\"}"
         };
-        System.out.println(execCurl(demo));
+        System.out.println(execCurl(curlStr));
         String[] demo2 = {"curl", "-b", "cookies.txt", "-X", "GET", "http://localhost:8081/api/t1/test/qryTestCases?testGroupSeq=857",
                 "-H", "accept: application/json",
                 "-H", "Content-Type: application/json"
@@ -126,10 +122,20 @@ public class TestCurl {
     }
 
     public static String execCurl(String[] curlStr) {
+        int length = curlStr.length;
+        String[] newCurlStr = new String[length];
+        for (int i = 0; i < length; i++) {
+            String str = curlStr[i];
+            str.replaceAll("\r|\n", "");
+            str = StringUtils.strip(str);
+            newCurlStr[i] = str;
+        }
+
+
         BufferedReader reader = null;
         InputStreamReader input = null;
         try {
-            ProcessBuilder process = new ProcessBuilder(curlStr);
+            ProcessBuilder process = new ProcessBuilder(newCurlStr);
             Process p;
             p = process.start();
             input = new InputStreamReader(p.getInputStream());

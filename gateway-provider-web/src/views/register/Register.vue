@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="bg-white">
-      <q-img width="200px" height="60px" :src="require('@/assets/logo.svg')" alt="logo" />
+      <q-img width="200px" height="60px" :src="require('@/assets/logo.png')" alt="logo" />
     </div>
     <div class="WAL position-relative bg-grey-1" :style="style">
       <q-layout view="hHh Lpr lFf" class="WAL__layout bg-white" container>

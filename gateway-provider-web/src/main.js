@@ -4,6 +4,9 @@ import router from './router'
 import store from './store'
 import './quasar'
 import { addRouters } from '@/utils/utils'
+import axios from 'axios'
+// 全局设置 axios 发送请求带上cookie
+axios.defaults.withCredentials = true
 
 Vue.config.productionTip = false
 

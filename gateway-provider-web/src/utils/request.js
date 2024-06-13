@@ -61,6 +61,7 @@ export default function request(url, option) {
     }
   };
   const newOptions = { ...defaultOptions, ...options };
+  newOptions.withcredentials = true
   if (
     newOptions.method === 'POST' ||
     newOptions.method === 'PUT' ||

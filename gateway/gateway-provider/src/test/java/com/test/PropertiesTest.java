@@ -16,14 +16,14 @@ public class PropertiesTest {
     private StringEncryptor stringEncryptor;
 
     @Test
-    public void Encrypt() {
+    public void encrypt() {
         // 加密
         System.out.println(stringEncryptor.encrypt("ccic1234"));
     }
 
     @Test
     public void decrypt() {
-        // 加密
+        // 解密
         System.out.println(stringEncryptor.decrypt("0nYH9D/RaF5fQDBYzzunpvJDYlTI+q9CQrAv6pJH1yx6k0BMQ61RjZS/tsZKmKYM"));
     }
 }

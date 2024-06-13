@@ -5,7 +5,8 @@ import javax.servlet.http.HttpServletRequest;
 public class ServiceUtils {
 
     public static Object getCurrentUser(HttpServletRequest request) {
-        Object user = null == request.getSession(false) ? null : request.getSession(false).getAttribute(Dictionary.SUSER);
+        Object user = request.getAttribute("_USER");
+//        Object user = null == request.getSession(false) ? null : request.getSession(false).getAttribute(Dictionary.SUSER);
         return user;
     }
 }

@@ -49,7 +49,7 @@
                 </template>
               </q-toolbar>
               <div v-if="userModel.length === 0" class="row q-col-gutter-sm">
-                <span>请在左边选择一个用户,点击详情</span>
+                <span>ok请在左边选择一个用户,点击详情</span>
               </div>
               <div v-else>
                 <q-card-section class="text-center">
@@ -57,7 +57,7 @@
                     <template v-slot:header></template>
                     <template v-slot:list="">
                       <q-avatar size="88px" @mouseover="isUploadIconVisible = true" @mouseout="isUploadIconVisible = false" class="relative-position">
-                        <q-img :src="userModel.headIcon === null || userModel.headIcon === undefined ? require('@/assets/logo.svg') : staticDomain + userModel.headIcon.path + userModel.headIcon.local_name" class="absolute-center" />
+                        <q-img :src="userModel.headIcon === null || userModel.headIcon === undefined ? require('@/assets/logo.png') : staticDomain + userModel.headIcon.path + userModel.headIcon.local_name" class="absolute-center" />
                         <transition style="width:100%;height:100%" enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
                           <q-icon name="edit" v-show="isUploadIconVisible" class="avatar-upload">
                             <q-uploader-add-trigger />

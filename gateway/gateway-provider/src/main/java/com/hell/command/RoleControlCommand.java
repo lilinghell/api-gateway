@@ -21,7 +21,7 @@ public class RoleControlCommand implements Command {
         if (null == user) {
             throw new ValidationException(CheckMsg.VALIDATION_AUTH);
         }
-
+        request.setAttribute("_USER", user);
         //
 
     }

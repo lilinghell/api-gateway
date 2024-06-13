@@ -2,13 +2,13 @@ package com.hell.action.common;
 
 import com.hell.common.CheckMsg;
 import com.hell.common.Dictionary;
+import com.hell.config.action.BaseAction;
+import com.hell.config.response.ResponseResult;
+import com.hell.core.exception.ValidationException;
 import com.hell.dao.SUserDao;
 import com.hell.db.dao.common.PRoutersDao;
 import com.hell.db.table.provider.SUser;
 import com.hell.dto.request.LoginRequest;
-import com.hell.config.action.BaseAction;
-import com.hell.config.response.ResponseResult;
-import com.hell.core.exception.ValidationException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.BeanUtils;
@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 @RestController
@@ -31,13 +33,13 @@ public class LoginAction implements BaseAction<LoginRequest, ResponseResult> {
     @PostMapping(path = "/api/common/login")
     @ApiOperation("登陆")
     @Override
-    public ResponseResult execute(HttpServletRequest request, @Valid @RequestBody LoginRequest loginRequest) throws Exception {
+    public ResponseResult execute(HttpServletRequest request, HttpServletResponse response, @Valid @RequestBody LoginRequest loginRequest) throws Exception {
         //判断用户名和密码
         SUser user = userDao.qryUserInfo(loginRequest);
         if (null == user) {
             throw new ValidationException(CheckMsg.VALIDATION_LOGIN_AUTH_ERROR);
         }
-        if((user.getEntInfo().getSeq()+"_sysadmin").equals(user.getRoleInfo().getRoleName())) {
+        if ((user.getEntInfo().getSeq() + "_sysadmin").equals(user.getRoleInfo().getRoleName())) {
             //企业超级管理员（认证人员）
             user.getRoleInfo().setRouters(routersDao.findByServiceType(Dictionary.SERVCIE_TYPE_0).getRouters());
         }
@@ -46,6 +48,19 @@ public class LoginAction implements BaseAction<LoginRequest, ResponseResult> {
         SUser nUser = new SUser();
         BeanUtils.copyProperties(user, nUser);
         nUser.setPassword("");
+
+        Cookie cookie;
+        if ("gray".equals(user.getUserId())) {
+            cookie = new Cookie("grayEnv", "true");
+        } else {
+            cookie = new Cookie("grayEnv", "false");
+        }
+        cookie.setPath("/");
+        cookie.setHttpOnly(true);
+        response.addCookie(cookie);
+        //response.setHeader("Cache-Control","no-cache");
+        //response.setHeader("Pragma","no-cache");
+        //response.setDateHeader ("Expires", -1);
 
         return new ResponseResult(nUser);
     }

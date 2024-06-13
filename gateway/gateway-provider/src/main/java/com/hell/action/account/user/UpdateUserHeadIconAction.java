@@ -3,19 +3,18 @@ package com.hell.action.account.user;
 import com.hell.common.CheckMsg;
 import com.hell.common.ServiceUtils;
 import com.hell.common.service.UploaderService;
+import com.hell.config.action.BaseAction;
+import com.hell.core.exception.ValidationException;
 import com.hell.dao.SUserDao;
 import com.hell.db.table.common.PAttachment;
 import com.hell.db.table.provider.SUser;
 import com.hell.dto.request.UpdateUserHeadIconRequest;
 import com.hell.dto.response.UserResponse;
-import com.hell.config.action.BaseAction;
-import com.hell.core.exception.ValidationException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -28,7 +27,7 @@ public class UpdateUserHeadIconAction implements BaseAction<UpdateUserHeadIconRe
 
     @PostMapping(path = "/api/t1/account/uploadUserHeadIcon")
     @ApiOperation("用户头像更新")
-    public UserResponse execute(HttpServletRequest r, MultipartFile file, @Valid UpdateUserHeadIconRequest request) throws Exception {
+    public UserResponse execute(HttpServletRequest r, @Valid UpdateUserHeadIconRequest request) throws Exception {
         SUser cUser = (SUser) ServiceUtils.getCurrentUser(r);
         SUser u = userDao.findById(request.getUserSeq()).get();
 
@@ -37,7 +36,7 @@ public class UpdateUserHeadIconAction implements BaseAction<UpdateUserHeadIconRe
             throw new ValidationException(CheckMsg.VALIDATION_UNAUTH_OPERATION);
         }
 
-        PAttachment p = uploader.singleUpload("/images/", file);
+        PAttachment p = uploader.singleUpload("/images/", request.getFile());
         u.setHeadIcon(p);
         userDao.save(u);
 

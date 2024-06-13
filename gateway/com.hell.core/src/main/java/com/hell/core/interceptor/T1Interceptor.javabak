@@ -1,0 +1,31 @@
+package com.hell.core.interceptor;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.List;
+
+@ConfigurationProperties(
+        prefix = "app.t1"
+)
+@Component
+public class T1Interceptor extends BaseInterceptor {
+
+    @Value("${app.t1.commands.pre:}")
+    private LinkedHashSet<String> commandsPre = new LinkedHashSet<String>();
+
+    @Value("${app.t1.commands.post:}")
+    private LinkedHashSet<String> commandsPost = new LinkedHashSet<String>();
+
+    @Value("${app.t1.commands.after:}")
+    private LinkedHashSet<String> commandsAfter = new LinkedHashSet<String>();
+
+    @Value("${app.t1.path-patterns:/api/t1/**}")
+    private List<String> pathPatterns = new ArrayList<>();
+
+    @Value("${app.t1.exclude-path-patterns:}")
+    private List<String> excludePathPatterns = new ArrayList<String>();
+}

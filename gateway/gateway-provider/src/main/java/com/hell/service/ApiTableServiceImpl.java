@@ -384,7 +384,6 @@ public class ApiTableServiceImpl implements ApiTableService {
         QueryParameter queryParameter = (QueryParameter) para;
 
         ApiParameter apiParameter = new ApiParameter();
-
         apiParameter.setType(queryParameter.getType());
         apiParameter.setDescription(queryParameter.getDescription());
         apiParameter.setRequired(queryParameter.getRequired());

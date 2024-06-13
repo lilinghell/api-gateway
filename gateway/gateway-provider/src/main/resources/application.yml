@@ -2,7 +2,7 @@ spring:
   application:
     name: provider
 server:
-  port: 8090
+  port: 8190
 ---
 spring:
   messages:

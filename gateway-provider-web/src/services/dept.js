@@ -1,6 +1,6 @@
 import request from '@/utils/request';
 export async function qryDept(params) {
-  return request('/api/t1/account/qryDept', {
+  return request('/api/t3/account/qryDept', {
     method: 'GET',
     params: {
       ...params

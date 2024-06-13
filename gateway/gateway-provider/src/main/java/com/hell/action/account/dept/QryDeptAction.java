@@ -23,7 +23,7 @@ public class QryDeptAction implements BaseAction<DeptRequest, DeptsResponse> {
 
     private SDeptDao deptDao;
 
-    @GetMapping(path = "/api/t1/account/qryDept")
+    @GetMapping(path = "/api/t3/account/qryDept")
     @ApiOperation("团队信息查询")
     public DeptsResponse execute(HttpServletRequest httpServletRequest) throws Exception {
         SUser user = (SUser) ServiceUtils.getCurrentUser(httpServletRequest);

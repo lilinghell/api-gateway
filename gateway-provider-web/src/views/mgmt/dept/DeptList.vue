@@ -78,7 +78,7 @@
                         <q-item v-bind="scope.itemProps" v-on="scope.itemEvents">
                           <q-item-section side>
                             <q-avatar v-if="scope.opt.headIcon === null || scope.opt.headIcon === undefined" size="24px">
-                              <q-img :src="require('@/assets/logo.svg')" />
+                              <q-img :src="require('@/assets/logo.png')" />
                             </q-avatar>
                             <q-avatar v-else size="24px">
                               <q-img :src="staticDomain + scope.opt.headIcon.path + scope.opt.headIcon.local_name" />

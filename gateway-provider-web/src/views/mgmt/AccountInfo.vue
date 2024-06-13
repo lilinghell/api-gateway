@@ -4,7 +4,7 @@
       <q-splitter separator-class="bg-white" v-model="splitterModel" style="height: 100%; min-height: 600px;">
         <template v-slot:before>
           <div class="q-pa-md">
-            <div class="doc-heading doc-h1">基本信息</div>
+            <div class="doc-heading doc-h1">基本信息-grayEnv</div>
             <div class="q-my-md">
               <q-card-section class="text-center">
                 <q-uploader @uploaded="handleUploaded" field-name="file" style="width:240px" :url="`/api/t1/account/uploadCUHeadIcon`" auto-upload flat class="uploader-container">

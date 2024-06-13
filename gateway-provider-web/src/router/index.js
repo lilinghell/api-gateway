@@ -8,17 +8,17 @@ const routes = [
   {
     path: '/provider/login',
     name: 'login',
-    component: () => import(/* webpackChunkName: "common" */ '@/views/Login.vue')
+    component: () => import(/* webpackChunkName: "login" */ '@/views/Login.vue')
   },
   {
     path: '/provider/register',
     name: 'register',
-    component: () => import(/* webpackChunkName: "common" */ '@/views/register/Register.vue')
+    component: () => import(/* webpackChunkName: "register" */ '@/views/register/Register.vue')
   },
   {
     path: '*',
     name: '404',
-    component: () => import(/* webpackChunkName: "common" */ '@/views/exception/404.vue')
+    component: () => import(/* webpackChunkName: "common404" */ '@/views/exception/404.vue')
   }
 ]
 
@@ -26,7 +26,7 @@ const a = [
   {
     path: '/provider',
     name: 'provider',
-    component: () => import(/* webpackChunkName: "common" */ '@/layouts/Layout.vue'),
+    component: () => import(/* webpackChunkName: "layout" */ '@/layouts/Layout.vue'),
     children: [
       {
         path: 'dashboard',
@@ -36,7 +36,7 @@ const a = [
           label: 'dashboard',
           show: true
         },
-        component: () => import(/* webpackChunkName: "common" */ '@/views/dashboard/dashboard.vue')
+        component: () => import(/* webpackChunkName: "dashboard" */ '@/views/dashboard/dashboard.vue')
       },
       {
         path: 'account_info',
@@ -46,7 +46,7 @@ const a = [
           label: '账号信息',
           show: true
         },
-        component: () => import(/* webpackChunkName: "mgmt" */ '@/views/mgmt/AccountInfo.vue')
+        component: () => import(/* webpackChunkName: "accountInfo" */ '@/views/mgmt/AccountInfo.vue')
       },
       {
         path: 'mgmt',
@@ -56,7 +56,7 @@ const a = [
           label: '系统管理',
           show: true
         },
-        component: () => import(/* webpackChunkName: "common" */ '@/views/router-view'),
+        component: () => import(/* webpackChunkName: "commonRouterView" */ '@/views/router-view'),
         children: [
           {
             path: 'roles',
@@ -66,7 +66,7 @@ const a = [
               label: '角色',
               show: true
             },
-            component: () => import(/* webpackChunkName: "mgmt" */ '@/views/mgmt/role/RoleList.vue')
+            component: () => import(/* webpackChunkName: "Role" */ '@/views/mgmt/role/RoleList.vue')
           },
           {
             path: 'users',
@@ -76,7 +76,7 @@ const a = [
               label: '用户',
               show: true
             },
-            component: () => import(/* webpackChunkName: "mgmt" */ '@/views/mgmt/user/UserList.vue')
+            component: () => import(/* webpackChunkName: "user" */ '@/views/mgmt/user/UserList.vue')
           },
           {
             path: 'dept',
@@ -86,7 +86,7 @@ const a = [
               label: '部门',
               show: true
             },
-            component: () => import(/* webpackChunkName: "mgmt" */ '@/views/mgmt/dept/DeptList.vue')
+            component: () => import(/* webpackChunkName: "dept" */ '@/views/mgmt/dept/DeptList.vue')
           }
         ]
       },
@@ -98,7 +98,7 @@ const a = [
           label: '应用服务',
           show: true
         },
-        component: () => import(/* webpackChunkName: "apps" */ '@/views/apps/Index.vue')
+        component: () => import(/* webpackChunkName: "appsIndex" */ '@/views/apps/Index.vue')
       },
       {
         path: 'apps/:appId',
@@ -108,7 +108,7 @@ const a = [
           label: '',
           show: false
         },
-        component: () => import(/* webpackChunkName: "apps" */ '@/views/apps/AppLayout.vue'),
+        component: () => import(/* webpackChunkName: "appLayout" */ '@/views/apps/AppLayout.vue'),
         children: [
           {
             path: 'dashboard',
@@ -118,7 +118,7 @@ const a = [
               label: 'dashboard',
               show: true
             },
-            component: () => import(/* webpackChunkName: "apps" */ '@/views/apps/Dashboard.vue')
+            component: () => import(/* webpackChunkName: "appsDashboard" */ '@/views/apps/Dashboard.vue')
           },
           {
             path: 'appEnv',
@@ -128,7 +128,7 @@ const a = [
               label: '生态环境',
               show: true
             },
-            component: () => import(/* webpackChunkName: "apps" */ '@/views/apps/env/AppEnv.vue')
+            component: () => import(/* webpackChunkName: "AppEnv" */ '@/views/apps/env/AppEnv.vue')
           },
           {
             path: ':appEnvId/apis',
@@ -138,7 +138,7 @@ const a = [
               label: 'API服务',
               show: false
             },
-            component: () => import(/* webpackChunkName: "apps" */ '@/views/apps/api/ApiGroups.vue'),
+            component: () => import(/* webpackChunkName: "ApiGroups" */ '@/views/apps/api/ApiGroups.vue'),
           },
           {
             path: ':appEnvId/api',
@@ -148,7 +148,7 @@ const a = [
               label: '原子服务',
               show: false
             },
-            component: () => import(/* webpackChunkName: "apps" */ '@/views/apps/api/Api.vue'),
+            component: () => import(/* webpackChunkName: "Apis" */ '@/views/apps/api/Api.vue'),
           },
           {
             path: 'scene',
@@ -158,7 +158,7 @@ const a = [
               label: '场景服务',
               show: true
             },
-            component: () => import(/* webpackChunkName: "apps" */ '@/views/apps/scene/Scene.vue')
+            component: () => import(/* webpackChunkName: "scene" */ '@/views/apps/scene/Scene.vue')
           },
           {
             path: 'testMgmt',
@@ -168,7 +168,7 @@ const a = [
               label: '测试管理',
               show: true
             },
-            component: () => import(/* webpackChunkName: "test" */ '@/views/router-view'),
+            component: () => import(/* webpackChunkName: "testRouterView" */ '@/views/router-view'),
             children: [
               {
                 path: 'parameter',
@@ -178,7 +178,7 @@ const a = [
                   label: '参数变量',
                   show: true
                 },
-                component: () => import(/* webpackChunkName: "test" */ '@/views/apps/test/Parameter.vue'),
+                component: () => import(/* webpackChunkName: "parameter" */ '@/views/apps/test/Parameter.vue'),
               },
               {
                 path: 'case',
@@ -188,7 +188,7 @@ const a = [
                   label: '测试用例',
                   show: true
                 },
-                component: () => import(/* webpackChunkName: "test" */ '@/views/apps/test/Case.vue'),
+                component: () => import(/* webpackChunkName: "case" */ '@/views/apps/test/Case.vue'),
               },
               {
                 path: 'test',
@@ -198,7 +198,7 @@ const a = [
                   label: '测试计划',
                   show: true
                 },
-                component: () => import(/* webpackChunkName: "test" */ '@/views/apps/test/TestPlan.vue'),
+                component: () => import(/* webpackChunkName: "testPlan" */ '@/views/apps/test/TestPlan.vue'),
               }
             ]
           },
@@ -210,7 +210,7 @@ const a = [
               label: '变更管理',
               show: true
             },
-            component: () => import(/* webpackChunkName: "change" */ '@/views/router-view'),
+            component: () => import(/* webpackChunkName: "changeRouterView" */ '@/views/router-view'),
             children: [
               {
                 path: 'track',
@@ -234,7 +234,7 @@ const a = [
           label: '操作日志',
           show: true
         },
-        component: () => import(/* webpackChunkName: "common" */ '@/views/log/Logs.vue')
+        component: () => import(/* webpackChunkName: "logs" */ '@/views/log/Logs.vue')
       }
     ]
   }

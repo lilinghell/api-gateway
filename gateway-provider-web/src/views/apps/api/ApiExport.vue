@@ -114,6 +114,7 @@ export default {
             return api.seq
           }),
           appEnvSeq: this.appEnvId,
+          appSeq: this.appId,
         })
 
         const fileName = date.formatDate(new Date(), 'YYYYMMDDHHmmss')
